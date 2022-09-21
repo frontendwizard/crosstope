@@ -51,12 +51,26 @@ async function main() {
   const records: RawData[] = parse(input, { columns: true })
 
   for (const result of records) {
-    console.log(`parsing: ${result.sequence}`)
+    console.log(`inserting mhc_allele: ${result.mhc_allele}`)
+    await prisma.mHCAllele.upsert({
+      where: {
+        id: result.mhc_allele,
+      },
+      create: {
+        id: result.mhc_allele,
+      },
+      update: {},
+    })
+    console.log(`inserting pmhc: ${result.sequence}`)
     await prisma.pMHC.upsert({
       where: {
         complex_code: result.complex_code,
       },
-      create: result,
+      create: {
+        ...result,
+        mhc_allele_id: result.mhc_allele,
+        mhc_allele: undefined,
+      },
       update: {},
     })
   }

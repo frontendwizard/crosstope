@@ -1,23 +1,15 @@
-import { NextPage } from 'next'
+import { ChakraProvider } from '@chakra-ui/react'
 import { AppProps } from 'next/app'
-import { AppType } from 'next/dist/shared/lib/utils'
-import { ReactElement, ReactNode } from 'react'
-import { DefaultLayout } from '~/components/DefaultLayout'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { trpc } from '~/utils/trpc'
 
-export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <ChakraProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <Component {...pageProps} />
+    </ChakraProvider>
+  )
 }
-
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
-}
-
-const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
-  const getLayout =
-    Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>)
-
-  return getLayout(<Component {...pageProps} />)
-}) as AppType
 
 export default trpc.withTRPC(MyApp)

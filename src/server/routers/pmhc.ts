@@ -11,6 +11,7 @@ const defaultPmhcSelect = Prisma.validator<Prisma.PMHCSelect>()({
   structure_type: true,
   mhc_allele: true,
   source_organism: true,
+  source_protein: true,
   epitope_position: true,
   immunological_background: true,
   reference: true,
@@ -21,15 +22,26 @@ const defaultPmhcSelect = Prisma.validator<Prisma.PMHCSelect>()({
 
 export const pmhcRouter = t.router({
   search: t.procedure
-    .input(z.object({ sequence: z.string() }))
+    .input(
+      z.object({
+        query: z.string(),
+        filters: z.object({ mhcAllele: z.string().array() }).optional(),
+      }),
+    )
     .query(async ({ input }) => {
-      const { sequence } = input
+      const { query, filters } = input
       const items = await prisma.pMHC.findMany({
         select: defaultPmhcSelect,
         where: {
-          sequence: {
-            contains: sequence,
-          },
+          OR: [
+            { sequence: { contains: query } },
+            { source_organism: { contains: query } },
+            { source_protein: { contains: query } },
+            { mhc_allele_id: { contains: query } },
+            { immunological_background: { contains: query } },
+            { peptide_lenght: { contains: query } },
+          ],
+          AND: [{ mhc_allele_id: { in: filters?.mhcAllele } }],
         },
       })
       return {
