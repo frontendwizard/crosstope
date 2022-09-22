@@ -23,20 +23,22 @@ model Post {
 }
 
 model PMHC {
-  complex_code             String    @id
-  sequence                 String
-  epitope_id_by_iedb       String
-  link_epitope_id_by_iedb  String
-  structure_type           String
-  mhc_allele_id            String
-  mhc_allele               MHCAllele @relation(fields: [mhc_allele_id], references: [id])
-  source_organism          String
-  epitope_position         String
-  immunological_background String
-  reference                String
-  link_para_source_protein String
-  link_para_reference      String
-  peptide_lenght           String
+  complex_code                String                  @id
+  sequence                    String
+  epitope_id_by_iedb          String
+  link_epitope_id_by_iedb     String
+  structure_type_id           String
+  structure_type              StructureType           @relation(fields: [structure_type_id], references: [id])
+  mhc_allele_id               String
+  mhc_allele                  MHCAllele               @relation(fields: [mhc_allele_id], references: [id])
+  source_organism             String
+  epitope_position            String
+  immunological_background_id String
+  immunological_background    ImmunologicalBackground @relation(fields: [immunological_background_id], references: [id])
+  reference                   String
+  link_para_source_protein    String
+  link_para_reference         String
+  peptide_lenght              String
 
   id_sequence              String?
   source_protein           String?
@@ -47,7 +49,17 @@ model PMHC {
   link_para_structure_type String?
 }
 
+model StructureType {
+  id    String @id
+  pmhcs PMHC[]
+}
+
+model ImmunologicalBackground {
+  id    String @id
+  pmhcs PMHC[]
+}
+
 model MHCAllele {
-  id   String @id
-  PMHC PMHC[]
+  id    String @id
+  pmhcs PMHC[]
 }

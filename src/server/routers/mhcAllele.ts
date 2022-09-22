@@ -4,7 +4,7 @@ import { prisma } from '~/server/prisma'
 
 const defaultAlleleSelect = Prisma.validator<Prisma.MHCAlleleSelect>()({
   id: true,
-  _count: { select: { PMHC: true } },
+  _count: { select: { pmhcs: true } },
 })
 
 export const mhcAlleleRouter = t.router({

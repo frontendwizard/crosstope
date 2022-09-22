@@ -25,7 +25,13 @@ export const pmhcRouter = t.router({
     .input(
       z.object({
         query: z.string(),
-        filters: z.object({ mhcAllele: z.string().array() }).optional(),
+        filters: z
+          .object({
+            mhcAllele: z.string().array().optional(),
+            immunologicalBackground: z.string().array().optional(),
+            structureType: z.string().array().optional(),
+          })
+          .optional(),
       }),
     )
     .query(async ({ input }) => {
@@ -38,10 +44,17 @@ export const pmhcRouter = t.router({
             { source_organism: { contains: query } },
             { source_protein: { contains: query } },
             { mhc_allele_id: { contains: query } },
-            { immunological_background: { contains: query } },
             { peptide_lenght: { contains: query } },
           ],
-          AND: [{ mhc_allele_id: { in: filters?.mhcAllele } }],
+          AND: [
+            { mhc_allele_id: { in: filters?.mhcAllele } },
+            {
+              immunological_background_id: {
+                in: filters?.immunologicalBackground,
+              },
+            },
+            { structure_type_id: { in: filters?.structureType } },
+          ],
         },
       })
       return {

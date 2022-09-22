@@ -53,23 +53,35 @@ async function main() {
   for (const result of records) {
     console.log(`inserting mhc_allele: ${result.mhc_allele}`)
     await prisma.mHCAllele.upsert({
-      where: {
-        id: result.mhc_allele,
-      },
-      create: {
-        id: result.mhc_allele,
-      },
+      where: { id: result.mhc_allele },
+      create: { id: result.mhc_allele },
+      update: {},
+    })
+    console.log(`inserting structure_type: ${result.structure_type}`)
+    await prisma.structureType.upsert({
+      where: { id: result.structure_type },
+      create: { id: result.structure_type },
+      update: {},
+    })
+    console.log(
+      `inserting immunological_background: ${result.immunological_background}`,
+    )
+    await prisma.immunologicalBackground.upsert({
+      where: { id: result.immunological_background },
+      create: { id: result.immunological_background },
       update: {},
     })
     console.log(`inserting pmhc: ${result.sequence}`)
     await prisma.pMHC.upsert({
-      where: {
-        complex_code: result.complex_code,
-      },
+      where: { complex_code: result.complex_code },
       create: {
         ...result,
         mhc_allele_id: result.mhc_allele,
         mhc_allele: undefined,
+        structure_type_id: result.structure_type,
+        structure_type: undefined,
+        immunological_background_id: result.immunological_background,
+        immunological_background: undefined,
       },
       update: {},
     })
