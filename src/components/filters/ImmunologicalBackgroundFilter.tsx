@@ -1,4 +1,4 @@
-import { Checkbox, Tag, Text } from '@chakra-ui/react'
+import { Box, Checkbox, Tag, Text } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { trpc } from '../../utils/trpc'
 
@@ -23,8 +23,8 @@ export const ImmunologicalBackgroundFilter = ({
   }, [immunologicalBackgroundQuery.data, onChange])
 
   return (
-    <>
-      <Text>Immunological Background</Text>
+    <Box>
+      <Text fontWeight="bold">Immunological Background</Text>
       {immunologicalBackgroundQuery.data?.items.map(
         (immunologicalBackground) => (
           <Checkbox
@@ -45,6 +45,6 @@ export const ImmunologicalBackgroundFilter = ({
           </Checkbox>
         ),
       )}
-    </>
+    </Box>
   )
 }

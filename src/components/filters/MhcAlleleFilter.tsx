@@ -1,4 +1,4 @@
-import { Checkbox, Tag, Text } from '@chakra-ui/react'
+import { Box, Checkbox, Tag, Text } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { trpc } from '../../utils/trpc'
 
@@ -17,8 +17,8 @@ export const MHCAlleleFilter = ({
   }, [mhcAlleleQuery.data, onChange])
 
   return (
-    <>
-      <Text>MHC Allele</Text>
+    <Box>
+      <Text fontWeight="bold">MHC Allele</Text>
       {mhcAlleleQuery.data?.items.map((allele) => (
         <Checkbox
           key={allele.id}
@@ -30,10 +30,11 @@ export const MHCAlleleFilter = ({
               onChange(value.filter((id) => id !== allele.id))
             }
           }}
+          fontSize="sm"
         >
           {allele.id} <Tag>{allele._count.pmhcs}</Tag>
         </Checkbox>
       ))}
-    </>
+    </Box>
   )
 }
