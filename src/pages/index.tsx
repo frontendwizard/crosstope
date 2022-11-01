@@ -53,7 +53,7 @@ const IndexPage: NextPage = () => {
           onChange={(e) => setQuery(e.target.value)}
         />
         <Flex>
-          <Box w="40" flexShrink="0">
+          <Stack w="40" flexShrink="0">
             <Text>Filters</Text>
             <Divider />
             <MHCAlleleFilter
@@ -70,7 +70,7 @@ const IndexPage: NextPage = () => {
               value={immunologicalBackgroundFilters}
               onChange={setImmunologicalBackgroundFilters}
             />
-          </Box>
+          </Stack>
           <Flex>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing="4">
               {pmhcQuery.data?.items.map((pmhc) => (
