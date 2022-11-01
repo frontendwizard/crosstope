@@ -10,7 +10,7 @@ export const PmhcHit = ({
 }) => {
   return (
     <Box rounded="md" p="2" key={hit.complex_code}>
-      <List>
+      <List alignItems="center" display="flex" flexDir="column">
         <ListItem>
           <Image
             src={`/images/${hit.complex_code}_V5.jpg`}
