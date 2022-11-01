@@ -1,4 +1,5 @@
-import { Box, List, ListItem, Text } from '@chakra-ui/react'
+import { Box, Button, Link, List, ListItem, Text } from '@chakra-ui/react'
+import { DownloadIcon } from '@chakra-ui/icons'
 import { inferProcedureOutput } from '@trpc/server'
 import Image from 'next/image'
 import { AppRouter } from '~/server/routers/_app'
@@ -39,6 +40,16 @@ export const PmhcHit = ({
         <ListItem>
           <Text fontWeight="bold">peptide lenght:</Text>
           {hit.peptide_lenght}
+        </ListItem>
+        <ListItem>
+          <Button
+            leftIcon={<DownloadIcon />}
+            as="a"
+            href={`/pdb/${hit.complex_code}.pdb`}
+            download
+          >
+            Download PDB file
+          </Button>
         </ListItem>
       </List>
     </Box>
