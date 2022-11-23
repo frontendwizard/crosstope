@@ -54,6 +54,7 @@
     "zod": "^3.0.0"
   },
   "devDependencies": {
+    "@jest/types": "^29.3.1",
     "@playwright/test": "^1.19.2",
     "@types/jest": "^27.0.1",
     "@types/node": "^18.7.11",
