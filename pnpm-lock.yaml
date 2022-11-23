@@ -16,6 +16,7 @@ specifiers:
   '@trpc/server': ^10.0.0-proxy-beta.0
   '@types/jest': ^27.0.1
   '@types/node': ^18.7.11
+  '@types/node-fetch': ^2.6.2
   '@types/react': ^18.0.9
   '@types/ws': ^8.5.3
   '@typescript-eslint/eslint-plugin': ^5.41.0
@@ -74,6 +75,7 @@ devDependencies:
   '@playwright/test': 1.25.2
   '@types/jest': 27.5.2
   '@types/node': 18.7.18
+  '@types/node-fetch': 2.6.2
   '@types/react': 18.0.20
   '@types/ws': 8.5.3
   '@typescript-eslint/eslint-plugin': 5.42.0_jryqt3cuuvifrfxlzq4vyu72ze
@@ -2384,6 +2386,13 @@ packages:
   /@types/lodash/4.14.185:
     resolution: {integrity: sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==}
     dev: false
+
+  /@types/node-fetch/2.6.2:
+    resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
+    dependencies:
+      '@types/node': 18.7.18
+      form-data: 3.0.1
+    dev: true
 
   /@types/node/18.7.18:
     resolution: {integrity: sha512-m+6nTEOadJZuTPkKR/SYK3A2d7FZrgElol9UP1Kae90VVU4a6mxnPuLiIW1m4Cq4gZ/nWb9GrdVXJCoCazDAbg==}

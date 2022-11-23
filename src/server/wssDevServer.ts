@@ -10,6 +10,7 @@ if (!global.fetch) {
 const wss = new ws.Server({
   port: 3001,
 })
+// @ts-expect-error I have no idea why the types are wrong here
 const handler = applyWSSHandler({ wss, router: appRouter, createContext })
 
 wss.on('connection', (ws) => {
