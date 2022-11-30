@@ -1,23 +1,16 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id    String @id @default(uuid())
-  title String
-  text  String
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
-  // To return `Date`s intact through the API we use transformers
-  // https://trpc.io/docs/data-transformers
-  // This is unique so it can be used for cursor-based pagination
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  text      String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
@@ -28,25 +21,24 @@ model PMHC {
   epitope_id_by_iedb          String
   link_epitope_id_by_iedb     String
   structure_type_id           String
-  structure_type              StructureType           @relation(fields: [structure_type_id], references: [id])
   mhc_allele_id               String
-  mhc_allele                  MHCAllele               @relation(fields: [mhc_allele_id], references: [id])
   source_organism             String
   epitope_position            String
   immunological_background_id String
-  immunological_background    ImmunologicalBackground @relation(fields: [immunological_background_id], references: [id])
   reference                   String
   link_para_source_protein    String
   link_para_reference         String
   peptide_lenght              String
-
-  id_sequence              String?
-  source_protein           String?
-  deposition               String?
-  release                  String?
-  last_modification        String?
-  structure_source         String?
-  link_para_structure_type String?
+  id_sequence                 String?
+  source_protein              String?
+  deposition                  String?
+  release                     String?
+  last_modification           String?
+  structure_source            String?
+  link_para_structure_type    String?
+  immunological_background    ImmunologicalBackground @relation(fields: [immunological_background_id], references: [id])
+  mhc_allele                  MHCAllele               @relation(fields: [mhc_allele_id], references: [id])
+  structure_type              StructureType           @relation(fields: [structure_type_id], references: [id])
 }
 
 model StructureType {

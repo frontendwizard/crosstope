@@ -27,6 +27,7 @@ app.prepare().then(() => {
     handle(req, res, parsedUrl)
   })
   const wss = new ws.Server({ server })
+  // @ts-expect-error I have no idea why the types are wrong here
   const handler = applyWSSHandler({ wss, router: appRouter, createContext })
 
   process.on('SIGTERM', () => {
