@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client'
-import { t } from '../trpc'
+import { router, publicProcedure } from '../trpc'
 import { prisma } from '~/server/prisma'
 
 const defaultAlleleSelect = Prisma.validator<Prisma.MHCAlleleSelect>()({
@@ -7,8 +7,8 @@ const defaultAlleleSelect = Prisma.validator<Prisma.MHCAlleleSelect>()({
   _count: { select: { pmhcs: true } },
 })
 
-export const mhcAlleleRouter = t.router({
-  list: t.procedure.query(async ({}) => {
+export const mhcAlleleRouter = router({
+  list: publicProcedure.query(async ({}) => {
     const items = await prisma.mHCAllele.findMany({
       select: defaultAlleleSelect,
     })

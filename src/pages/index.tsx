@@ -49,11 +49,7 @@ const IndexPage: NextPage = () => {
     <Container maxW="container.lg" as="main">
       <Box pos="absolute" top={0} right={0} p={4}>
         <Link href="/new-pmhc">
-          <IconButton
-            as="a"
-            aria-label="add new pmhc allele"
-            icon={<AddIcon />}
-          />
+          <IconButton aria-label="add new pmhc allele" icon={<AddIcon />} />
         </Link>
       </Box>
       <Stack spacing="4" py="8">

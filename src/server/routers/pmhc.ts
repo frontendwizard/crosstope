@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 import { z } from 'zod'
-import { t } from '../trpc'
+import { router, publicProcedure } from '../trpc'
 import { prisma } from '~/server/prisma'
 
 const defaultPmhcSelect = Prisma.validator<Prisma.PMHCSelect>()({
@@ -20,8 +20,8 @@ const defaultPmhcSelect = Prisma.validator<Prisma.PMHCSelect>()({
   peptide_lenght: true,
 })
 
-export const pmhcRouter = t.router({
-  search: t.procedure
+export const pmhcRouter = router({
+  search: publicProcedure
     .input(
       z.object({
         query: z.string(),

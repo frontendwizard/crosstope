@@ -9,10 +9,10 @@ import {
   Input,
   Stack,
 } from '@chakra-ui/react'
-import { PMHC } from '@prisma/client'
 import { NextPage } from 'next'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
+import { PMHC } from '@prisma/client'
 
 type FormValues = Omit<PMHC, 'complex_code'>
 
