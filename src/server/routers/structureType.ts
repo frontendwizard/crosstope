@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client'
-import { t } from '../trpc'
+import { router, publicProcedure } from '../trpc'
 import { prisma } from '~/server/prisma'
 
 const defaultStructureTypeSelect =
@@ -8,8 +8,8 @@ const defaultStructureTypeSelect =
     _count: { select: { pmhcs: true } },
   })
 
-export const structureTypeRouter = t.router({
-  list: t.procedure.query(async ({}) => {
+export const structureTypeRouter = router({
+  list: publicProcedure.query(async ({}) => {
     const items = await prisma.structureType.findMany({
       select: defaultStructureTypeSelect,
     })

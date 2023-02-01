@@ -1,15 +1,18 @@
+import { AddIcon } from '@chakra-ui/icons'
 import {
   Box,
   Container,
   Divider,
   Flex,
   Heading,
+  IconButton,
   Input,
   SimpleGrid,
   Stack,
   Text,
 } from '@chakra-ui/react'
 import { NextPage } from 'next'
+import Link from 'next/link'
 import { useState } from 'react'
 import { useDebounce } from 'react-use'
 import { ImmunologicalBackgroundFilter } from '~/components/filters/ImmunologicalBackgroundFilter'
@@ -44,6 +47,11 @@ const IndexPage: NextPage = () => {
 
   return (
     <Container maxW="container.lg" as="main">
+      <Box pos="absolute" top={0} right={0} p={4}>
+        <Link href="/new-pmhc">
+          <IconButton aria-label="add new pmhc allele" icon={<AddIcon />} />
+        </Link>
+      </Box>
       <Stack spacing="4" py="8">
         <Heading mb="4">Crosstope</Heading>
         <Input

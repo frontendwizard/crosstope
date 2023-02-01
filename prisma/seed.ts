@@ -10,18 +10,6 @@ import { parse } from 'csv-parse/sync'
 const prisma = new PrismaClient()
 
 async function main() {
-  // const firstPostId = '5c03994c-fc16-47e0-bd02-d218a370a078'
-  // await prisma.post.upsert({
-  //   where: {
-  //     id: firstPostId,
-  //   },
-  //   create: {
-  //     id: firstPostId,
-  //     title: 'First Post',
-  //     text: 'This is an example post generated from `prisma/seed.ts`',
-  //   },
-  //   update: {},
-  // })
   type RawData = {
     sequence: string
     epitope_id_by_iedb: string
@@ -73,7 +61,13 @@ async function main() {
     })
     console.log(`inserting pmhc: ${result.sequence}`)
     await prisma.pMHC.upsert({
-      where: { complex_code: result.complex_code },
+      where: {
+        sequence_source_organism_mhc_allele_id: {
+          sequence: result.sequence,
+          source_organism: result.source_organism,
+          mhc_allele_id: result.mhc_allele,
+        },
+      },
       create: {
         ...result,
         mhc_allele_id: result.mhc_allele,
