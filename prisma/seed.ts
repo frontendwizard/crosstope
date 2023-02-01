@@ -61,7 +61,13 @@ async function main() {
     })
     console.log(`inserting pmhc: ${result.sequence}`)
     await prisma.pMHC.upsert({
-      where: { complex_code: result.complex_code },
+      where: {
+        sequence_source_organism_mhc_allele_id: {
+          sequence: result.sequence,
+          source_organism: result.source_organism,
+          mhc_allele_id: result.mhc_allele,
+        },
+      },
       create: {
         ...result,
         mhc_allele_id: result.mhc_allele,

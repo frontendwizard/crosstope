@@ -20,9 +20,12 @@ import {
   useForm,
   UseFormRegister,
 } from 'react-hook-form'
-import { PMHC } from '@prisma/client'
+import { inferProcedureInput } from '@trpc/server'
+import { AppRouter } from '~/server/routers/_app'
+import { trpc } from '~/utils/trpc'
+import { useRouter } from 'next/router'
 
-type FormValues = Omit<PMHC, 'complex_code'>
+type FormValues = inferProcedureInput<AppRouter['pmhc']['add']>
 
 function TextInput({
   register,
@@ -54,12 +57,33 @@ function TextInput({
 }
 
 const NewPmhcPage: NextPage = () => {
+  const utils = trpc.useContext()
   const { register, handleSubmit, formState } = useForm<FormValues>({
     defaultValues: {
+      sequence: 'SIINFEKL',
+      epitope_id_by_iedb: '58560',
+      link_epitope_id_by_iedb: 'https://www.iedb.org/epitope/58560',
       structure_type_id: 'Model (D1-EM-D2)',
+      link_para_structure_type: 'https://www.iedb.org/structure/1',
+      source_protein: 'nome da proteina',
+      link_para_source_protein: `https://www.ncbi.nlm.nih.gov/protein/AJD14767.1`,
+      structure_source: 'nome da estrutura',
+      reference: 'nome do artigo',
+      link_para_reference: 'https://pubmed.ncbi.nlm.nih.gov/20536361/',
+      mhc_allele_id: 'H2-Kb',
+      source_organism: 'humana',
+      immunological_background_id: 'https://www.iedb.org/epId/58560',
+      epitope_position: '9-18',
     },
   })
-  const onSubmit = handleSubmit((data) => console.log(data))
+  const router = useRouter()
+  const addPMHC = trpc.pmhc.add.useMutation({
+    async onSuccess() {
+      await utils.pmhc.search.invalidate()
+      router.back()
+    },
+  })
+  const onSubmit = handleSubmit((data) => addPMHC.mutateAsync(data))
   return (
     <Container maxW="container.lg" as="main">
       <Link href="/">
@@ -91,6 +115,13 @@ const NewPmhcPage: NextPage = () => {
                 fieldKey="link_epitope_id_by_iedb"
                 label="IEDB link"
                 rules={{ required: 'Link to epitope id on iedb is required' }}
+              />
+              <TextInput
+                register={register}
+                formState={formState}
+                fieldKey="epitope_position"
+                label="Epitope Position"
+                rules={{ required: 'Epitope position is required' }}
               />
               <TextInput
                 register={register}

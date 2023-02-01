@@ -16,7 +16,7 @@ model Post {
 }
 
 model PMHC {
-  complex_code                String                  @id
+  complex_code                String
   sequence                    String
   epitope_id_by_iedb          String
   link_epitope_id_by_iedb     String
@@ -40,6 +40,8 @@ model PMHC {
   mhc_allele                  MHCAllele               @relation(fields: [mhc_allele_id], references: [id])
   structure_type              StructureType           @relation(fields: [structure_type_id], references: [id])
   published                   Boolean                 @default(false)
+
+  @@id([sequence, source_organism, mhc_allele_id])
 }
 
 model StructureType {
