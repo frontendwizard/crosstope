@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Text, Checkbox, Tag, Box } from '@chakra-ui/react'
 import { trpc } from '../../utils/trpc'
 
@@ -10,13 +9,6 @@ export const StructureTypeFilter = ({
   onChange: (value: string[]) => void
 }) => {
   const structureTypeQuery = trpc.structureType.list.useQuery()
-  useEffect(() => {
-    if (structureTypeQuery.data) {
-      onChange(
-        structureTypeQuery.data.items.map((structureType) => structureType.id),
-      )
-    }
-  }, [structureTypeQuery.data, onChange])
 
   return (
     <Box>

@@ -1,5 +1,4 @@
 import { Box, Checkbox, Tag, Text } from '@chakra-ui/react'
-import { useEffect } from 'react'
 import { trpc } from '../../utils/trpc'
 
 export const ImmunologicalBackgroundFilter = ({
@@ -11,16 +10,6 @@ export const ImmunologicalBackgroundFilter = ({
 }) => {
   const immunologicalBackgroundQuery =
     trpc.immunologicalBackground.list.useQuery()
-
-  useEffect(() => {
-    if (immunologicalBackgroundQuery.data) {
-      onChange(
-        immunologicalBackgroundQuery.data.items.map(
-          (immunologicalBackground) => immunologicalBackground.id,
-        ),
-      )
-    }
-  }, [immunologicalBackgroundQuery.data, onChange])
 
   return (
     <Box>

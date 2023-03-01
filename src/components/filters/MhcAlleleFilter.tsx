@@ -1,5 +1,4 @@
 import { Box, Checkbox, Tag, Text } from '@chakra-ui/react'
-import { useEffect } from 'react'
 import { trpc } from '../../utils/trpc'
 
 export const MHCAlleleFilter = ({
@@ -10,11 +9,6 @@ export const MHCAlleleFilter = ({
   onChange: (value: string[]) => void
 }) => {
   const mhcAlleleQuery = trpc.mhcAllele.list.useQuery()
-  useEffect(() => {
-    if (mhcAlleleQuery.data) {
-      onChange(mhcAlleleQuery.data.items.map((mhcAllele) => mhcAllele.id))
-    }
-  }, [mhcAlleleQuery.data, onChange])
 
   return (
     <Box>

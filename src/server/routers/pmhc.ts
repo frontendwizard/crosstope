@@ -33,10 +33,36 @@ export const pmhcRouter = router({
             structureType: z.string().array().optional(),
           })
           .optional(),
+        limit: z.number().min(1).max(100).optional(),
+        cursor: z
+          .object({
+            sequence_source_organism_mhc_allele_id: z.object({
+              sequence: z.string(),
+              source_organism: z.string(),
+              mhc_allele_id: z.string(),
+            }),
+          })
+          .optional(),
       }),
     )
     .query(async ({ input }) => {
-      const { query, filters } = input
+      const { query, filters, cursor } = input
+      const limit = input.limit ?? 50
+
+      const andFilters = []
+      if (input.filters?.mhcAllele?.length) {
+        andFilters.push({ mhc_allele_id: { in: filters?.mhcAllele } })
+      }
+      if (input.filters?.immunologicalBackground?.length) {
+        andFilters.push({
+          immunological_background_id: {
+            in: filters?.immunologicalBackground,
+          },
+        })
+      }
+      if (input.filters?.structureType?.length) {
+        andFilters.push({ structure_type_id: { in: filters?.structureType } })
+      }
       const items = await prisma.pMHC.findMany({
         select: defaultPmhcSelect,
         where: {
@@ -47,18 +73,26 @@ export const pmhcRouter = router({
             { mhc_allele_id: { contains: query } },
             { peptide_lenght: { contains: query } },
           ],
-          AND: [
-            { mhc_allele_id: { in: filters?.mhcAllele } },
-            {
-              immunological_background_id: {
-                in: filters?.immunologicalBackground,
-              },
-            },
-            { structure_type_id: { in: filters?.structureType } },
-          ],
+          AND: andFilters,
         },
+        cursor,
+        take: limit + 1,
+        orderBy: { sequence: 'asc' },
       })
-      return { items }
+      let nextCursor: typeof cursor | undefined = undefined
+      if (items.length > limit) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const nextItem = items.pop()!
+        nextCursor = {
+          sequence_source_organism_mhc_allele_id: {
+            sequence: nextItem.sequence,
+            source_organism: nextItem.source_organism,
+            mhc_allele_id: nextItem.mhc_allele.id,
+          },
+        }
+      }
+
+      return { items, nextCursor }
     }),
   add: publicProcedure
     .input(

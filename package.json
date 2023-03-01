@@ -57,6 +57,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.40.0",
+    "react-intersection-observer": "^9.4.3",
     "react-use": "^17.4.0",
     "superjson": "^1.7.4",
     "zod": "^3.0.0"
