@@ -5,7 +5,6 @@ specifiers:
   '@chakra-ui/react': ^2.3.4
   '@emotion/react': ^11
   '@emotion/styled': ^11
-  '@playwright/test': ^1.19.2
   '@prisma/client': ^4.9.0
   '@tanstack/react-query': ^4.3.8
   '@tanstack/react-query-devtools': ^4.3.9
@@ -29,7 +28,6 @@ specifiers:
   framer-motion: ^6
   next: ^13.0.0
   npm-run-all: ^4.1.5
-  playwright: ^1.19.1
   prettier: ^2.7.1
   prisma: ^4.9.0
   react: ^18.2.0
@@ -67,7 +65,6 @@ dependencies:
   zod: 3.20.2
 
 devDependencies:
-  '@playwright/test': 1.29.2
   '@types/jest': 27.5.2
   '@types/node': 18.11.18
   '@types/react': 18.0.26
@@ -81,7 +78,6 @@ devDependencies:
   eslint-plugin-react: 7.31.11_eslint@8.32.0
   eslint-plugin-react-hooks: 4.6.0_eslint@8.32.0
   npm-run-all: 4.1.5
-  playwright: 1.29.2
   prettier: 2.8.2
   prisma: 4.9.0
   start-server-and-test: 1.15.2
@@ -1660,15 +1656,6 @@ packages:
       picocolors: 1.0.0
       tiny-glob: 0.2.9
       tslib: 2.4.1
-    dev: true
-
-  /@playwright/test/1.29.2:
-    resolution: {integrity: sha512-+3/GPwOgcoF0xLz/opTnahel1/y42PdcgZ4hs+BZGIUjtmEFSXGg+nFoaH3NSmuc7a6GSFwXDJ5L7VXpqzigNg==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dependencies:
-      '@types/node': 18.11.18
-      playwright-core: 1.29.2
     dev: true
 
   /@popperjs/core/2.11.6:
@@ -4287,21 +4274,6 @@ packages:
   /pify/3.0.0:
     resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
     engines: {node: '>=4'}
-    dev: true
-
-  /playwright-core/1.29.2:
-    resolution: {integrity: sha512-94QXm4PMgFoHAhlCuoWyaBYKb92yOcGVHdQLoxQ7Wjlc7Flg4aC/jbFW7xMR52OfXMVkWicue4WXE7QEegbIRA==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dev: true
-
-  /playwright/1.29.2:
-    resolution: {integrity: sha512-hKBYJUtdmYzcjdhYDkP9WGtORwwZBBKAW8+Lz7sr0ZMxtJr04ASXVzH5eBWtDkdb0c3LLFsehfPBTRfvlfKJOA==}
-    engines: {node: '>=14'}
-    hasBin: true
-    requiresBuild: true
-    dependencies:
-      playwright-core: 1.29.2
     dev: true
 
   /popmotion/11.0.3:
