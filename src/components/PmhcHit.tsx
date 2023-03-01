@@ -14,6 +14,7 @@ export const PmhcHit = ({
       <List alignItems="center" display="flex" flexDir="column">
         <ListItem>
           <Image
+            alt=""
             src={`/images/${hit.complex_code}_V5.jpg`}
             width={210}
             height={150}
