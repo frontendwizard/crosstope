@@ -39,7 +39,7 @@ model PMHC {
   immunological_background    ImmunologicalBackground @relation(fields: [immunological_background_id], references: [id])
   mhc_allele                  MHCAllele               @relation(fields: [mhc_allele_id], references: [id])
   structure_type              StructureType           @relation(fields: [structure_type_id], references: [id])
-  published                   Boolean                 @default(false)
+  published                   Boolean                 @default(true)
 
   @@id([sequence, source_organism, mhc_allele_id])
 }

@@ -63,6 +63,7 @@ export const pmhcRouter = router({
       if (input.filters?.structureType?.length) {
         andFilters.push({ structure_type_id: { in: filters?.structureType } })
       }
+      andFilters.push({ published: true })
       const items = await prisma.pMHC.findMany({
         select: defaultPmhcSelect,
         where: {
@@ -135,6 +136,7 @@ export const pmhcRouter = router({
           ...input,
           complex_code: randomUUID(),
           peptide_lenght: input.sequence.length.toString(),
+          published: false,
         },
       })
       return { item }
