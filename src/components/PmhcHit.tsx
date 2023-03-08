@@ -1,8 +1,9 @@
-import { Box, Button, Link, List, ListItem, Text } from '@chakra-ui/react'
 import { DownloadIcon } from '@chakra-ui/icons'
-import { inferProcedureOutput } from '@trpc/server'
+import { Box, Button, List, ListItem, Text } from '@chakra-ui/react'
+import type { inferProcedureOutput } from '@trpc/server'
 import Image from 'next/image'
-import { AppRouter } from '~/server/routers/_app'
+
+import type { AppRouter } from '~/server/routers/_app'
 
 export const PmhcHit = ({
   hit,

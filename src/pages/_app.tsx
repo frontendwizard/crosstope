@@ -1,6 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react'
-import { AppProps } from 'next/app'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import type { AppProps } from 'next/app'
+
 import { trpc } from '~/utils/trpc'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {

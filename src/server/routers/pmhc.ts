@@ -1,8 +1,10 @@
 import { Prisma } from '@prisma/client'
-import { z } from 'zod'
-import { router, publicProcedure } from '../trpc'
-import { prisma } from '~/server/prisma'
 import { randomUUID } from 'crypto'
+import { z } from 'zod'
+
+import { prisma } from '~/server/prisma'
+
+import { publicProcedure, router } from '../trpc'
 
 const defaultPmhcSelect = Prisma.validator<Prisma.PMHCSelect>()({
   complex_code: true,
@@ -82,7 +84,6 @@ export const pmhcRouter = router({
       })
       let nextCursor: typeof cursor | undefined = undefined
       if (items.length > limit) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const nextItem = items.pop()!
         nextCursor = {
           sequence_source_organism_mhc_allele_id: {

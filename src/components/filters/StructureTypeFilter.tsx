@@ -1,4 +1,5 @@
-import { Text, Checkbox, Tag, Box } from '@chakra-ui/react'
+import { Box, Checkbox, Tag, Text } from '@chakra-ui/react'
+
 import { trpc } from '../../utils/trpc'
 
 export const StructureTypeFilter = ({

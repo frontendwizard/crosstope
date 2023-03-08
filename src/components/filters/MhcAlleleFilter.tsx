@@ -1,4 +1,5 @@
 import { Box, Checkbox, Tag, Text } from '@chakra-ui/react'
+
 import { trpc } from '../../utils/trpc'
 
 export const MHCAlleleFilter = ({

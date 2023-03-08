@@ -11,16 +11,19 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDebounce } from 'react-use'
+
 import { ImmunologicalBackgroundFilter } from '~/components/filters/ImmunologicalBackgroundFilter'
 import { MHCAlleleFilter } from '~/components/filters/MhcAlleleFilter'
 import { StructureTypeFilter } from '~/components/filters/StructureTypeFilter'
 import { PmhcHit } from '~/components/PmhcHit'
-import { RouterOutput, trpc } from '../utils/trpc'
+
+import type { RouterOutput } from '../utils/trpc'
+import { trpc } from '../utils/trpc'
 
 function SearchResults({
   data,

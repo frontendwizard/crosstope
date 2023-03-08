@@ -1,6 +1,8 @@
 import { Prisma } from '@prisma/client'
-import { router, publicProcedure } from '../trpc'
+
 import { prisma } from '~/server/prisma'
+
+import { publicProcedure, router } from '../trpc'
 
 const defaultImmunologicalBackgroundSelect =
   Prisma.validator<Prisma.ImmunologicalBackgroundSelect>()({

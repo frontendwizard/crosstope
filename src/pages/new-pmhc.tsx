@@ -12,18 +12,19 @@ import {
   SimpleGrid,
   Stack,
 } from '@chakra-ui/react'
-import { NextPage } from 'next'
+import type { inferProcedureInput } from '@trpc/server'
+import type { NextPage } from 'next'
 import Link from 'next/link'
-import {
+import { useRouter } from 'next/router'
+import type {
   FormState,
   RegisterOptions,
-  useForm,
   UseFormRegister,
 } from 'react-hook-form'
-import { inferProcedureInput } from '@trpc/server'
-import { AppRouter } from '~/server/routers/_app'
+import { useForm } from 'react-hook-form'
+
+import type { AppRouter } from '~/server/routers/_app'
 import { trpc } from '~/utils/trpc'
-import { useRouter } from 'next/router'
 
 type FormValues = inferProcedureInput<AppRouter['pmhc']['add']>
 
