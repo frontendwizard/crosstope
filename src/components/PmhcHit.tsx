@@ -5,21 +5,20 @@ import Image from 'next/image'
 
 import type { AppRouter } from '~/server/routers/_app'
 
+import { useCloudinary } from './Cloudinary'
+
 export const PmhcHit = ({
   hit,
 }: {
   hit: inferProcedureOutput<AppRouter['pmhc']['search']>['items'][number]
 }) => {
+  const cloudinary = useCloudinary()
+  const pmhcImage = cloudinary.image(`crosstope/${hit.complex_code}_V5`)
   return (
     <Box rounded="md" p="2" key={hit.complex_code}>
       <List alignItems="center" display="flex" flexDir="column">
         <ListItem>
-          <Image
-            alt=""
-            src={`/images/${hit.complex_code}_V5.jpg`}
-            width={210}
-            height={150}
-          />
+          <Image alt="" src={pmhcImage.toURL()} width={210} height={150} />
         </ListItem>
         <ListItem>
           <Text fontWeight="bold">sequence:</Text> {hit.sequence}

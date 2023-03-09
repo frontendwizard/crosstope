@@ -1,3 +1,5 @@
+import 'filepond/dist/filepond.min.css'
+
 import { ArrowLeftIcon } from '@chakra-ui/icons'
 import {
   Button,
@@ -16,6 +18,8 @@ import type { inferProcedureInput } from '@trpc/server'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { FilePond } from 'react-filepond'
 import type {
   FormState,
   RegisterOptions,
@@ -59,6 +63,7 @@ function TextInput({
 
 const NewPmhcPage: NextPage = () => {
   const utils = trpc.useContext()
+  const [uploadedFile, setUploadedFile] = useState(null)
   const { register, handleSubmit, formState } = useForm<FormValues>({
     defaultValues: {
       sequence: 'SIINFEKL',
@@ -84,7 +89,13 @@ const NewPmhcPage: NextPage = () => {
       router.back()
     },
   })
-  const onSubmit = handleSubmit((data) => addPMHC.mutateAsync(data))
+  const onSubmit = handleSubmit((data) => {
+    if (!uploadedFile) {
+      alert('Please upload a file')
+      return
+    }
+    addPMHC.mutateAsync(data)
+  })
   return (
     <Container maxW="container.lg" as="main">
       <Link href="/">
@@ -193,6 +204,35 @@ const NewPmhcPage: NextPage = () => {
                 fieldKey="link_para_reference"
                 label="Reference Link"
                 rules={{ required: 'Reference Link is required' }}
+              />
+              <FilePond
+                server={{
+                  process: (_, file) => {
+                    return new Promise((resolve, reject) => {
+                      // Upload the file to Cloudinary
+                      const url = `https://api.cloudinary.com/v1_1/frontendwizard/image/upload`
+                      const formData = new FormData()
+                      formData.append('file', file)
+                      formData.append('upload_preset', 'crosstope-unsigned')
+                      fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                      })
+                        .then((response) => response.json())
+                        .then((result) => {
+                          // Set the uploaded file state with the Cloudinary response
+                          setUploadedFile(result)
+                          resolve(result)
+                        })
+                        .catch((error) => {
+                          reject(error)
+                        })
+                    })
+                  },
+                }}
+                acceptedFileTypes={['image/*']}
+                allowMultiple={false}
+                labelIdle='Drag & Drop your image or <span class="filepond--label-action">Browse</span>'
               />
             </SimpleGrid>
             <Button
