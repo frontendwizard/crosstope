@@ -28,13 +28,12 @@ export const pmhcRouter = router({
     .input(
       z.object({
         query: z.string(),
-        filters: z
-          .object({
-            mhcAllele: z.string().array().optional(),
-            immunologicalBackground: z.string().array().optional(),
-            structureType: z.string().array().optional(),
-          })
-          .optional(),
+        filters: z.object({
+          mhcAllele: z.string().array().optional(),
+          immunologicalBackground: z.string().array().optional(),
+          structureType: z.string().array().optional(),
+          published: z.boolean().optional().default(true),
+        }),
         limit: z.number().min(1).max(100).optional(),
         cursor: z
           .object({
@@ -65,7 +64,7 @@ export const pmhcRouter = router({
       if (input.filters?.structureType?.length) {
         andFilters.push({ structure_type_id: { in: filters?.structureType } })
       }
-      andFilters.push({ published: true })
+      andFilters.push({ published: input.filters.published })
       const items = await prisma.pMHC.findMany({
         select: defaultPmhcSelect,
         where: {
@@ -113,6 +112,8 @@ export const pmhcRouter = router({
         mhc_allele_id: z.string(),
         source_organism: z.string(),
         immunological_background_id: z.string().url(),
+        link_para_imagem: z.string().url(),
+        link_para_pdb_file: z.string().url(),
       }),
     )
     .mutation(async ({ input }) => {

@@ -1,7 +1,18 @@
 import { DownloadIcon } from '@chakra-ui/icons'
-import { Box, Button, List, ListItem, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  Image,
+  List,
+  ListItem,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import type { inferProcedureOutput } from '@trpc/server'
-import Image from 'next/image'
 
 import type { AppRouter } from '~/server/routers/_app'
 
@@ -15,21 +26,37 @@ export const PmhcHit = ({
   const cloudinary = useCloudinary()
   const pmhcImage = cloudinary.image(`crosstope/${hit.complex_code}_V5`)
   return (
-    <Box rounded="md" p="2" key={hit.complex_code}>
-      <List alignItems="center" display="flex" flexDir="column">
-        <ListItem>
-          <Image alt="" src={pmhcImage.toURL()} width={210} height={150} />
-        </ListItem>
-        <ListItem>
-          <Text fontWeight="bold">sequence:</Text> {hit.sequence}
-        </ListItem>
-        <ListItem>
-          <Text fontWeight="bold">source organism:</Text>
-          {hit.source_organism}
-        </ListItem>
+    <Card variant="outline" direction="row" overflow="hidden">
+      <Image
+        objectFit="cover"
+        maxW={{ base: '100%', sm: '200px' }}
+        src={pmhcImage.toURL()}
+      />
+      <Stack>
+        <CardBody>
+          <Box>
+            <Heading size="xs" textTransform="uppercase">
+              Sequence
+            </Heading>
+            <Text>{hit.sequence}</Text>
+          </Box>
+          <Box>
+            <Heading size="xs" textTransform="uppercase">
+              Source Organism
+            </Heading>
+            <Text>{hit.source_organism}</Text>
+          </Box>
+          <Box>
+            <Heading size="xs" textTransform="uppercase">
+              Source Protein
+            </Heading>
+            <Text>{hit.source_protein}</Text>
+          </Box>
+        </CardBody>
+      </Stack>
+      {/* <List alignItems="center" display="flex" flexDir="column">
         <ListItem>
           <Text fontWeight="bold">source protein:</Text>
-          {hit.source_protein}
         </ListItem>
         <ListItem>
           <Text fontWeight="bold">mhc allele:</Text> {hit.mhc_allele.id}
@@ -52,7 +79,7 @@ export const PmhcHit = ({
             Download PDB file
           </Button>
         </ListItem>
-      </List>
-    </Box>
+      </List> */}
+    </Card>
   )
 }

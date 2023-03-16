@@ -36,6 +36,8 @@ model PMHC {
   last_modification           String?
   structure_source            String?
   link_para_structure_type    String?
+  link_para_imagem            String?
+  link_para_pdb_file          String?
   immunological_background    ImmunologicalBackground @relation(fields: [immunological_background_id], references: [id])
   mhc_allele                  MHCAllele               @relation(fields: [mhc_allele_id], references: [id])
   structure_type              StructureType           @relation(fields: [structure_type_id], references: [id])
