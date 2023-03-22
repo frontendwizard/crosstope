@@ -25,7 +25,7 @@ export function SearchResults({
   })
   if (!data) return null
   return (
-    <Flex w="full" flexDir="column">
+    <Flex w="full" gap="4" flexDir="column">
       {data.map((pmhc, i) => {
         const key = `${pmhc.mhc_allele.id}-${pmhc.sequence}-${pmhc.source_organism}`
         if (i === data.length - 5) {

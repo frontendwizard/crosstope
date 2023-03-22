@@ -68,7 +68,7 @@ const IndexPage: NextPage = () => {
           onChange={(e) => setQuery(e.target.value)}
         />
         <Flex>
-          <Stack w="40" flexShrink="0">
+          {/* <Stack w="40" flexShrink="0">
             <Text>Filters</Text>
             <Divider />
             <MHCAlleleFilter
@@ -85,7 +85,7 @@ const IndexPage: NextPage = () => {
               value={immunologicalBackgroundFilters}
               onChange={setImmunologicalBackgroundFilters}
             />
-          </Stack>
+          </Stack> */}
           <SearchResults
             data={pmhcQuery.data?.pages.flatMap((page) => page.items)}
             fetchNextPage={pmhcQuery.fetchNextPage}

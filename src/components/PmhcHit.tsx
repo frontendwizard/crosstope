@@ -5,6 +5,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Flex,
   Heading,
   Image,
   List,
@@ -17,6 +18,17 @@ import type { inferProcedureOutput } from '@trpc/server'
 import type { AppRouter } from '~/server/routers/_app'
 
 import { useCloudinary } from './Cloudinary'
+
+function DataItem({ label, value }: { label: string; value: string }) {
+  return (
+    <Flex alignItems="center" gap="2">
+      <Heading size="xs" textTransform="uppercase">
+        {label}
+      </Heading>
+      <Text>{value}</Text>
+    </Flex>
+  )
+}
 
 export const PmhcHit = ({
   hit,
@@ -34,24 +46,9 @@ export const PmhcHit = ({
       />
       <Stack>
         <CardBody>
-          <Box>
-            <Heading size="xs" textTransform="uppercase">
-              Sequence
-            </Heading>
-            <Text>{hit.sequence}</Text>
-          </Box>
-          <Box>
-            <Heading size="xs" textTransform="uppercase">
-              Source Organism
-            </Heading>
-            <Text>{hit.source_organism}</Text>
-          </Box>
-          <Box>
-            <Heading size="xs" textTransform="uppercase">
-              Source Protein
-            </Heading>
-            <Text>{hit.source_protein}</Text>
-          </Box>
+          <DataItem label="Sequence" value={hit.sequence} />
+          <DataItem label="Source Organism" value={hit.source_organism} />
+          <DataItem label="Source Protein" value={hit.source_protein} />
         </CardBody>
       </Stack>
       {/* <List alignItems="center" display="flex" flexDir="column">
