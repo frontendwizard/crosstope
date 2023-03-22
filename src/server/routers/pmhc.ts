@@ -20,6 +20,7 @@ const defaultPmhcSelect = Prisma.validator<Prisma.PMHCSelect>()({
   reference: true,
   link_para_source_protein: true,
   link_para_reference: true,
+  link_para_structure_type: true,
   peptide_lenght: true,
 })
 
