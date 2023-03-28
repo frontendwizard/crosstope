@@ -1,4 +1,4 @@
-import { Box, Checkbox, Tag, Text } from '@chakra-ui/react'
+import { Box, Checkbox, Flex, Tag, Text } from '@chakra-ui/react'
 
 import { trpc } from '../../utils/trpc'
 
@@ -12,8 +12,10 @@ export const MHCAlleleFilter = ({
   const mhcAlleleQuery = trpc.mhcAllele.list.useQuery()
 
   return (
-    <Box>
-      <Text fontWeight="bold">MHC Allele</Text>
+    <Flex direction="column" gap="2">
+      <Text fontWeight="bold" mb="2">
+        MHC Allele
+      </Text>
       {mhcAlleleQuery.data?.items.map((allele) => (
         <Checkbox
           key={allele.id}
@@ -30,6 +32,6 @@ export const MHCAlleleFilter = ({
           {allele.id} <Tag>{allele._count.pmhcs}</Tag>
         </Checkbox>
       ))}
-    </Box>
+    </Flex>
   )
 }

@@ -60,17 +60,17 @@ function FiltersDrawer({
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerBody>
+          <DrawerBody py="8">
             <MHCAlleleFilter
               value={mhcAlleleFilters}
               onChange={setMhcAlleleFilters}
             />
-            <Divider />
+            <Divider my="4" />
             <StructureTypeFilter
               value={structureTypeFilters}
               onChange={setStructureTypeFilters}
             />
-            <Divider />
+            <Divider my="4" />
             <ImmunologicalBackgroundFilter
               value={immunologicalBackgroundFilters}
               onChange={setImmunologicalBackgroundFilters}

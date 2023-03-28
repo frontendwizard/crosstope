@@ -15,13 +15,14 @@ const DraftsPage: NextPage = () => {
     },
   )
   return (
-    <Container maxW="container.lg" as="main">
-      <Heading>Drafts</Heading>
+    <Container maxW="container.lg" as="main" py="10">
+      <Heading mb="8">Drafts</Heading>
       <SearchResults
         data={pmhcQuery.data?.pages.flatMap((page) => page.items)}
         fetchNextPage={pmhcQuery.fetchNextPage}
         hasNextPage={pmhcQuery.hasNextPage}
         isFetching={pmhcQuery.isFetching}
+        draft
       />
     </Container>
   )

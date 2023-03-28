@@ -15,8 +15,7 @@ import type { inferProcedureOutput } from '@trpc/server'
 import NextLink from 'next/link'
 
 import type { AppRouter } from '~/server/routers/_app'
-
-import { useCloudinary } from './Cloudinary'
+import { trpc } from '~/utils/trpc'
 
 function DataItem({
   label,
@@ -57,20 +56,32 @@ function DataItem({
   )
 }
 
-export const PmhcHit = ({
+export function DraftPmhcHit({
   hit,
 }: {
   hit: inferProcedureOutput<AppRouter['pmhc']['search']>['items'][number]
-}) => {
-  const cloudinary = useCloudinary()
-  const pmhcImage = cloudinary.image(`crosstope/${hit.complex_code}_V5`)
+}) {
+  const pmhcImage = hit.link_para_imagem
+  const utils = trpc.useContext()
+  const { mutate: publish, isLoading: isPublishing } =
+    trpc.pmhc.publish.useMutation({
+      onSuccess: async () => {
+        utils.pmhc.search.invalidate()
+      },
+    })
+  const { mutate: deleteItem, isLoading: isDeleting } =
+    trpc.pmhc.delete.useMutation({
+      onSuccess: async () => {
+        utils.pmhc.search.invalidate()
+      },
+    })
   return (
     <Card variant="outline" direction="row" overflow="hidden">
       <Image
         alt=""
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
-        src={pmhcImage.toURL()}
+        src={pmhcImage || ''}
         fallback={
           <Box w={{ base: '100%', sm: '200px' }} objectFit="cover" bg="white" />
         }
@@ -110,7 +121,7 @@ export const PmhcHit = ({
               <Button
                 leftIcon={<DownloadIcon />}
                 as="a"
-                href={`/pdb/${hit.complex_code}.pdb`}
+                href={hit.link_para_pdb_file || ''}
                 download
               >
                 Download PDB file
@@ -124,6 +135,32 @@ export const PmhcHit = ({
                   Go to reference <ExternalLinkIcon ml="1" />
                 </Button>
               </NextLink>
+              <Button
+                isLoading={isPublishing}
+                colorScheme="green"
+                onClick={() =>
+                  publish({
+                    mhc_allele_id: hit.mhc_allele.id,
+                    sequence: hit.sequence,
+                    source_organism: hit.source_organism,
+                  })
+                }
+              >
+                Publish
+              </Button>
+              <Button
+                isLoading={isDeleting}
+                colorScheme="red"
+                onClick={() =>
+                  deleteItem({
+                    mhc_allele_id: hit.mhc_allele.id,
+                    sequence: hit.sequence,
+                    source_organism: hit.source_organism,
+                  })
+                }
+              >
+                Delete
+              </Button>
             </Flex>
           </Flex>
         </CardBody>

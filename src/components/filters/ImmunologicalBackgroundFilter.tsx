@@ -1,4 +1,4 @@
-import { Box, Checkbox, Tag, Text } from '@chakra-ui/react'
+import { Box, Checkbox, Flex, Tag, Text } from '@chakra-ui/react'
 
 import { trpc } from '../../utils/trpc'
 
@@ -13,8 +13,10 @@ export const ImmunologicalBackgroundFilter = ({
     trpc.immunologicalBackground.list.useQuery()
 
   return (
-    <Box>
-      <Text fontWeight="bold">Immunological Background</Text>
+    <Flex direction="column" py="2" gap="2">
+      <Text fontWeight="bold" mb="2">
+        Immunological Background
+      </Text>
       {immunologicalBackgroundQuery.data?.items.map(
         (immunologicalBackground) => (
           <Checkbox
@@ -35,6 +37,6 @@ export const ImmunologicalBackgroundFilter = ({
           </Checkbox>
         ),
       )}
-    </Box>
+    </Flex>
   )
 }

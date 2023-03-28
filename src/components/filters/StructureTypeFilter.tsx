@@ -1,4 +1,4 @@
-import { Box, Checkbox, Tag, Text } from '@chakra-ui/react'
+import { Box, Checkbox, Flex, Tag, Text } from '@chakra-ui/react'
 
 import { trpc } from '../../utils/trpc'
 
@@ -12,8 +12,10 @@ export const StructureTypeFilter = ({
   const structureTypeQuery = trpc.structureType.list.useQuery()
 
   return (
-    <Box>
-      <Text fontWeight="bold">Structure Type</Text>
+    <Flex direction="column" py="2" gap="2">
+      <Text fontWeight="bold" mb="2">
+        Structure Type
+      </Text>
       {structureTypeQuery.data?.items.map((structureType) => (
         <Checkbox
           key={structureType.id}
@@ -29,6 +31,6 @@ export const StructureTypeFilter = ({
           {structureType.id} <Tag>{structureType._count.pmhcs}</Tag>
         </Checkbox>
       ))}
-    </Box>
+    </Flex>
   )
 }

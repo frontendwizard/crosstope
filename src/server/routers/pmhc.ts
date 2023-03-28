@@ -21,6 +21,8 @@ const defaultPmhcSelect = Prisma.validator<Prisma.PMHCSelect>()({
   link_para_source_protein: true,
   link_para_reference: true,
   link_para_structure_type: true,
+  link_para_imagem: true,
+  link_para_pdb_file: true,
   peptide_lenght: true,
 })
 
@@ -140,6 +142,102 @@ export const pmhcRouter = router({
           complex_code: randomUUID(),
           peptide_lenght: input.sequence.length.toString(),
           published: false,
+        },
+      })
+      return { item }
+    }),
+  publish: publicProcedure
+    .input(
+      z.object({
+        sequence: z.string(),
+        source_organism: z.string(),
+        mhc_allele_id: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const item = await prisma.pMHC.update({
+        select: defaultPmhcSelect,
+        where: {
+          sequence_source_organism_mhc_allele_id: {
+            sequence: input.sequence,
+            source_organism: input.source_organism,
+            mhc_allele_id: input.mhc_allele_id,
+          },
+        },
+        data: { published: true },
+      })
+      return { item }
+    }),
+  delete: publicProcedure
+    .input(
+      z.object({
+        sequence: z.string(),
+        source_organism: z.string(),
+        mhc_allele_id: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const item = await prisma.pMHC.delete({
+        select: defaultPmhcSelect,
+        where: {
+          sequence_source_organism_mhc_allele_id: {
+            sequence: input.sequence,
+            source_organism: input.source_organism,
+            mhc_allele_id: input.mhc_allele_id,
+          },
+        },
+      })
+      return { item }
+    }),
+  update: publicProcedure
+    .input(
+      z.object({
+        sequence: z.string(),
+        source_organism: z.string(),
+        mhc_allele_id: z.string(),
+        epitope_position: z.string(),
+        epitope_id_by_iedb: z.string(),
+        link_epitope_id_by_iedb: z.string().url(),
+        structure_type_id: z.string(),
+        link_para_structure_type: z.string().url(),
+        source_protein: z.string(),
+        link_para_source_protein: z.string().url(),
+        structure_source: z.string(),
+        reference: z.string(),
+        link_para_reference: z.string().url(),
+        immunological_background_id: z.string().url(),
+        link_para_imagem: z.string().url(),
+        link_para_pdb_file: z.string().url(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      await prisma.immunologicalBackground.upsert({
+        where: { id: input.immunological_background_id },
+        create: { id: input.immunological_background_id },
+        update: {},
+      })
+      await prisma.mHCAllele.upsert({
+        where: { id: input.mhc_allele_id },
+        create: { id: input.mhc_allele_id },
+        update: {},
+      })
+      await prisma.structureType.upsert({
+        where: { id: input.structure_type_id },
+        create: { id: input.structure_type_id },
+        update: {},
+      })
+      const item = await prisma.pMHC.update({
+        select: defaultPmhcSelect,
+        where: {
+          sequence_source_organism_mhc_allele_id: {
+            sequence: input.sequence,
+            source_organism: input.source_organism,
+            mhc_allele_id: input.mhc_allele_id,
+          },
+        },
+        data: {
+          ...input,
+          peptide_lenght: input.sequence.length.toString(),
         },
       })
       return { item }
