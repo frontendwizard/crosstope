@@ -71,6 +71,9 @@ export const PmhcHit = ({
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
         src={pmhcImage.toURL()}
+        fallback={
+          <Box w={{ base: '100%', sm: '200px' }} objectFit="cover" bg="white" />
+        }
       />
       <Stack flex="1">
         <CardBody>
