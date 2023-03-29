@@ -13,7 +13,7 @@ ENV DATABASE_URL "file:/mnt/database/production.sqlite"
 # Install dependencies
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --ignore-scripts --prod
+RUN pnpm install --ignore-scripts --prod
 COPY . .
 RUN pnpx prisma generate
 ENV NEXT_TELEMETRY_DISABLED 1
