@@ -21,20 +21,20 @@ RUN pnpm run build
 RUN pnpm run generate-sqlite
 
 # Production image, copy all the files and run next
-# FROM node:16-alpine AS runner
-# WORKDIR /app
+FROM node:16-alpine AS runner
+WORKDIR /app
 
-# ENV NODE_ENV production
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
 
-# RUN addgroup --system --gid 1001 nodejs
-# RUN adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# USER nextjs
+USER nextjs
 
-# COPY --from=builder /app/package.json ./package.json
-# COPY --from=builder /app/node_modules ./node_modules
-# COPY --from=builder /app/.next ./.next
-# COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 
 CMD ["npm", "start"]
