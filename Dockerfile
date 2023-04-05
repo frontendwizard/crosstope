@@ -9,6 +9,8 @@ ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="${PATH}:${PNPM_HOME}"
 
 RUN npm install --global pnpm
+
+ENV DATABASE_URL "file:/mnt/database/production.sqlite"
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Install dependencies
