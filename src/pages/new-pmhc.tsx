@@ -29,6 +29,15 @@ import type { AppRouter } from '~/server/routers/_app'
 import { trpc } from '~/utils/trpc'
 
 type FormValues = inferProcedureInput<AppRouter['pmhc']['add']>
+type TextInputProps = {
+  register: UseFormRegister<FormValues>
+  formState: FormState<FormValues>
+  fieldKey: keyof FormValues
+  label: string
+  rules: RegisterOptions<FormValues>
+  helperText?: string
+  inputProps?: React.ComponentProps<typeof Input>
+}
 
 function TextInput({
   register,
@@ -38,15 +47,7 @@ function TextInput({
   rules,
   helperText,
   inputProps,
-}: {
-  register: UseFormRegister<FormValues>
-  formState: FormState<FormValues>
-  fieldKey: keyof FormValues
-  label: string
-  rules: RegisterOptions<FormValues>
-  helperText?: string
-  inputProps?: React.ComponentProps<typeof Input>
-}) {
+}: TextInputProps) {
   return (
     <FormControl
       isInvalid={Boolean(formState.errors[fieldKey])}
@@ -65,22 +66,7 @@ function TextInput({
 const NewPmhcPage: NextPage = () => {
   const utils = trpc.useContext()
   const { register, handleSubmit, formState } = useForm<FormValues>({
-    defaultValues: {
-      sequence: 'SIINFEKL',
-      epitope_id_by_iedb: '58560',
-      link_epitope_id_by_iedb: 'https://www.iedb.org/epitope/58560',
-      structure_type_id: 'Model (D1-EM-D2)',
-      link_para_structure_type: 'https://www.iedb.org/structure/1',
-      source_protein: 'nome da proteina',
-      link_para_source_protein: `https://www.ncbi.nlm.nih.gov/protein/AJD14767.1`,
-      structure_source: 'nome da estrutura',
-      reference: 'nome do artigo',
-      link_para_reference: 'https://pubmed.ncbi.nlm.nih.gov/20536361/',
-      mhc_allele_id: 'H2-Kb',
-      source_organism: 'humana',
-      immunological_background_id: 'https://www.iedb.org/epId/58560',
-      epitope_position: '9-18',
-    },
+    defaultValues: {},
   })
   const router = useRouter()
   const addPMHC = trpc.pmhc.add.useMutation({
@@ -92,6 +78,17 @@ const NewPmhcPage: NextPage = () => {
   const onSubmit = handleSubmit((data) => {
     addPMHC.mutateAsync(data)
   })
+  const fields: Pick<
+    TextInputProps,
+    'fieldKey' | 'label' | 'rules' | 'helperText'
+  >[] = [
+    {
+      fieldKey: 'sequence',
+      label: 'Sequence',
+      rules: { required: 'Sequence is required' },
+      helperText: 'e.g. YRLACNCVED',
+    },
+  ]
   return (
     <Container maxW="container.lg" as="main">
       <Link href="/">
@@ -102,14 +99,14 @@ const NewPmhcPage: NextPage = () => {
         <form onSubmit={onSubmit}>
           <Stack spacing="6" pb="10">
             <SimpleGrid columns={2} spacing="4">
-              <TextInput
-                register={register}
-                formState={formState}
-                fieldKey="sequence"
-                label="Sequence"
-                rules={{ required: 'Sequence is required' }}
-                helperText="e.g. YRLACNCVED"
-              />
+              {fields.map((field) => (
+                <TextInput
+                  key={field.fieldKey}
+                  register={register}
+                  formState={formState}
+                  {...field}
+                />
+              ))}
               <TextInput
                 register={register}
                 formState={formState}
