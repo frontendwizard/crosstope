@@ -4,8 +4,8 @@
  * @link https://www.prisma.io/docs/guides/database/seed-database
  */
 import { PrismaClient } from '@prisma/client'
-import fs from 'fs'
 import { parse } from 'csv-parse/sync'
+import fs from 'fs'
 
 const prisma = new PrismaClient()
 
