@@ -114,7 +114,7 @@ export const pmhcRouter = router({
         link_para_reference: z.string().url(),
         mhc_allele_id: z.string(),
         source_organism: z.string(),
-        immunological_background_id: z.string().url(),
+        immunological_background_id: z.string(),
         link_para_imagem: z.string().url(),
         link_para_pdb_file: z.string().url(),
       }),
