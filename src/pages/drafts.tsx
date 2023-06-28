@@ -9,6 +9,7 @@ const DraftsPage: NextPage = () => {
   if (status === 'loading') {
     return <div>Loading...</div>
   }
+  // @ts-expect-error
   if (status === 'unauthenticated' || data?.user.role !== 'admin') {
     return <Redirect to="/" />
   }
