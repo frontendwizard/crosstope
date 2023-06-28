@@ -3,6 +3,9 @@ import type { AppProviders } from 'next-auth/providers'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GithubProvider from 'next-auth/providers/github'
 
+const ADMIN_EMAILS = process.env.ADMIN_EMAILS?.split(',') || []
+console.log('ADMIN_EMAILS', ADMIN_EMAILS)
+
 let useMockProvider = process.env.NODE_ENV === 'test'
 const { GITHUB_CLIENT_ID, GITHUB_SECRET, NODE_ENV, APP_ENV } = process.env
 if (
@@ -43,11 +46,13 @@ if (useMockProvider) {
       clientId: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_SECRET,
       profile(profile) {
+        console.log('profile', profile)
         return {
           id: profile.id,
           name: profile.login,
           email: profile.email,
           image: profile.avatar_url,
+          role: ADMIN_EMAILS.includes(profile.email) ? 'admin' : 'user',
         } as any
       },
     }),
@@ -56,4 +61,22 @@ if (useMockProvider) {
 export default NextAuth({
   // Configure one or more authentication providers
   providers,
+  callbacks: {
+    async jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.accessToken
+      }
+      if (user) {
+        token.role = user.role
+      }
+      return token
+    },
+    async session({ session, token }) {
+      // @ts-expect-error
+      session.accessToken = token.accessToken
+      // @ts-expect-error
+      session.user.role = token.role
+      return session
+    },
+  },
 })

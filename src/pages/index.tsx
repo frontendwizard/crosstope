@@ -61,6 +61,13 @@ const IndexPage: NextPage = () => {
       >
         {session ? (
           <>
+            {session.user.role === 'admin' && (
+              <Link href="/drafts">
+                <Button variant="solid" colorScheme="blue">
+                  Drafts
+                </Button>
+              </Link>
+            )}
             <Link href="/new-pmhc">
               <IconButton aria-label="add new pmhc allele" icon={<AddIcon />} />
             </Link>
