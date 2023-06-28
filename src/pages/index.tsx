@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Link from 'next/link'
+import type { DefaultSession } from 'next-auth'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { useDebounce } from 'react-use'
@@ -61,7 +62,11 @@ const IndexPage: NextPage = () => {
       >
         {session ? (
           <>
-            {session.user.role === 'admin' && (
+            {(
+              session.user as DefaultSession['user'] & {
+                role: 'admin' | 'user'
+              }
+            )?.role === 'admin' && (
               <Link href="/drafts">
                 <Button variant="solid" colorScheme="blue">
                   Drafts
