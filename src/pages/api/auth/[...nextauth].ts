@@ -67,6 +67,7 @@ export default NextAuth({
         token.accessToken = account.accessToken
       }
       if (user) {
+        // @ts-expect-error
         token.role = user.role
       }
       return token
