@@ -4,7 +4,6 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import GithubProvider from 'next-auth/providers/github'
 
 const ADMIN_EMAILS = process.env.ADMIN_EMAILS?.split(',') || []
-console.log('ADMIN_EMAILS', ADMIN_EMAILS)
 
 let useMockProvider = process.env.NODE_ENV === 'test'
 const { GITHUB_CLIENT_ID, GITHUB_SECRET, NODE_ENV, APP_ENV } = process.env
@@ -46,7 +45,6 @@ if (useMockProvider) {
       clientId: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_SECRET,
       profile(profile) {
-        console.log('profile', profile)
         return {
           id: profile.id,
           name: profile.login,
@@ -59,6 +57,7 @@ if (useMockProvider) {
   )
 }
 export default NextAuth({
+  secret: process.env.SECRET,
   // Configure one or more authentication providers
   providers,
   callbacks: {
