@@ -1,31 +1,19 @@
-import { Container, Heading } from '@chakra-ui/react'
 import type { NextPage } from 'next'
+import { useSession } from 'next-auth/react'
 
-import { SearchResults } from '~/components/SearchResults'
-import { trpc } from '~/utils/trpc'
+import { DraftsList } from '~/components/DraftsList'
+import { Redirect } from '~/components/Redirect'
 
 const DraftsPage: NextPage = () => {
-  const pmhcQuery = trpc.pmhc.search.useInfiniteQuery(
-    {
-      query: '',
-      filters: { published: false },
-    },
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    },
-  )
-  return (
-    <Container maxW="container.lg" as="main" py="10">
-      <Heading mb="8">Drafts</Heading>
-      <SearchResults
-        data={pmhcQuery.data?.pages.flatMap((page) => page.items)}
-        fetchNextPage={pmhcQuery.fetchNextPage}
-        hasNextPage={pmhcQuery.hasNextPage}
-        isFetching={pmhcQuery.isFetching}
-        draft
-      />
-    </Container>
-  )
+  const { data, status } = useSession()
+  if (status === 'loading') {
+    return <div>Loading...</div>
+  }
+  // @ts-expect-error
+  if (status === 'unauthenticated' || data?.user.role !== 'admin') {
+    return <Redirect to="/" />
+  }
+  return <DraftsList />
 }
 
 export default DraftsPage

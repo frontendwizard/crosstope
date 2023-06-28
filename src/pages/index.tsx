@@ -1,86 +1,24 @@
 import { AddIcon } from '@chakra-ui/icons'
 import {
-  Box,
   Button,
   Container,
-  Divider,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
   Flex,
   Heading,
   IconButton,
   Input,
   Stack,
-  useDisclosure,
 } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import { createRef, useState } from 'react'
+import type { DefaultSession } from 'next-auth'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { useDebounce } from 'react-use'
 
-import { ImmunologicalBackgroundFilter } from '~/components/filters/ImmunologicalBackgroundFilter'
-import { MHCAlleleFilter } from '~/components/filters/MhcAlleleFilter'
-import { StructureTypeFilter } from '~/components/filters/StructureTypeFilter'
+import { FiltersDrawer } from '~/components/filters/Drawer'
 import { SearchResults } from '~/components/SearchResults'
 
 import { trpc } from '../utils/trpc'
-
-function FiltersDrawer({
-  mhcAlleleFilters,
-  setMhcAlleleFilters,
-  structureTypeFilters,
-  setStructureTypeFilters,
-  immunologicalBackgroundFilters,
-  setImmunologicalBackgroundFilters,
-}: {
-  mhcAlleleFilters: string[]
-  setMhcAlleleFilters: (value: string[]) => void
-  structureTypeFilters: string[]
-  setStructureTypeFilters: (value: string[]) => void
-  immunologicalBackgroundFilters: string[]
-  setImmunologicalBackgroundFilters: (value: string[]) => void
-}) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const btnRef = createRef<HTMLButtonElement>()
-
-  return (
-    <>
-      <Button ref={btnRef} onClick={onOpen}>
-        Filters
-      </Button>
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerBody py="8">
-            <MHCAlleleFilter
-              value={mhcAlleleFilters}
-              onChange={setMhcAlleleFilters}
-            />
-            <Divider my="4" />
-            <StructureTypeFilter
-              value={structureTypeFilters}
-              onChange={setStructureTypeFilters}
-            />
-            <Divider my="4" />
-            <ImmunologicalBackgroundFilter
-              value={immunologicalBackgroundFilters}
-              onChange={setImmunologicalBackgroundFilters}
-            />
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-    </>
-  )
-}
 
 const IndexPage: NextPage = () => {
   const [query, setQuery] = useState('')
@@ -111,14 +49,45 @@ const IndexPage: NextPage = () => {
     1000,
     [query],
   )
+  const { data: session } = useSession()
 
   return (
     <Container maxW="container.lg" as="main">
-      <Box pos="absolute" top={0} right={0} p={4}>
-        <Link href="/new-pmhc">
-          <IconButton aria-label="add new pmhc allele" icon={<AddIcon />} />
-        </Link>
-      </Box>
+      <Flex
+        flexDirection="row"
+        justifyContent="flex-end"
+        w="full"
+        py={4}
+        gap={4}
+      >
+        {session ? (
+          <>
+            {(
+              session.user as DefaultSession['user'] & {
+                role: 'admin' | 'user'
+              }
+            )?.role === 'admin' && (
+              <Link href="/drafts">
+                <Button variant="solid" colorScheme="blue">
+                  Drafts
+                </Button>
+              </Link>
+            )}
+            <Link href="/new-pmhc">
+              <IconButton aria-label="add new pmhc allele" icon={<AddIcon />} />
+            </Link>
+            <Button variant="solid" colorScheme="red" onClick={() => signOut()}>
+              Sign out
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button variant="solid" colorScheme="blue" onClick={() => signIn()}>
+              Sign in
+            </Button>
+          </>
+        )}
+      </Flex>
       <Stack spacing="4" py="8">
         <Heading mb="4">Crosstope</Heading>
         <Flex gap="4">
