@@ -53,9 +53,6 @@ if (useMockProvider) {
           role: ADMIN_EMAILS.includes(profile.email) ? 'admin' : 'user',
         } as any
       },
-      authorization: {
-        params: { redirect_uri: process.env.NEXTAUTH_URL },
-      },
     }),
   )
 }
