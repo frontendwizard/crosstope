@@ -16,8 +16,6 @@ import NextLink from 'next/link'
 
 import type { AppRouter } from '~/server/routers/_app'
 
-import { useCloudinary } from './Cloudinary'
-
 function DataItem({
   label,
   value,
@@ -62,15 +60,13 @@ export const PmhcHit = ({
 }: {
   hit: inferProcedureOutput<AppRouter['pmhc']['search']>['items'][number]
 }) => {
-  const cloudinary = useCloudinary()
-  const pmhcImage = cloudinary.image(`crosstope/${hit.complex_code}_V5`)
   return (
     <Card variant="outline" direction="row" overflow="hidden">
       <Image
         alt=""
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
-        src={pmhcImage.toURL()}
+        src={`images/${hit.complex_code}_V5.jpg`}
         fallback={
           <Box w={{ base: '100%', sm: '200px' }} objectFit="cover" bg="white" />
         }
