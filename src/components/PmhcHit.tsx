@@ -26,7 +26,7 @@ export const PmhcHit = ({
         alt=""
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
-        src={`images/${hit.mhc_allele}_${hit.sequence}.jpg`}
+        src={`images/${hit.mhc_allele.id}_${hit.sequence}.jpg`}
         fallback={
           <Box w={{ base: '100%', sm: '200px' }} objectFit="cover" bg="white" />
         }
@@ -66,7 +66,7 @@ export const PmhcHit = ({
               <Button
                 leftIcon={<DownloadIcon />}
                 as="a"
-                href={`/pdb/${hit.mhc_allele}_${hit.sequence}.pdb`}
+                href={`/pdb/${hit.mhc_allele.id}_${hit.sequence}.pdb`}
                 download
               >
                 Download PDB file
