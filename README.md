@@ -14,6 +14,6 @@ Once the form has been filled, the administrators can see the draft on the `Draf
 1. Open the `Drafts` page
 2. Download the image and pdb files
 3. open a PR with the following files:
-  - `public/images/<mhc_allele>_<sequence>_<source_organism>.jpg`
-  - `public/pdbs/<mhc_allele>_<sequence>_<source_organism>.pdb`
+  - `public/images/<mhc_allele>_<sequence>.jpg`
+  - `public/pdbs/<mhc_allele>_<sequence>.pdb`
 4. Once the PR is merged, then approve the record on the `Drafts` page. This will make the record visible to the public.
