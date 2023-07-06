@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@auth/core':
     specifier: ^0.9.0
@@ -11,8 +15,8 @@ dependencies:
     specifier: ^2.3.4
     version: 2.4.6(@emotion/react@11.10.5)(@emotion/styled@11.10.5)(@types/react@18.0.26)(framer-motion@6.5.1)(react-dom@18.2.0)(react@18.2.0)
   '@cloudinary/react':
-    specifier: ^1.11.0
-    version: 1.11.0(react@18.2.0)
+    specifier: ^1.11.2
+    version: 1.11.2(react@18.2.0)
   '@cloudinary/url-gen':
     specifier: ^1.9.1
     version: 1.9.1
@@ -1499,8 +1503,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@cloudinary/html@1.11.0:
-    resolution: {integrity: sha512-DXj+D9QTc41dGOeKbrxmUGrZdz/OElr6W2lRwh2bqWFZ3m+Zo32Il71Af2qihsr/tSrW/tNnSVq5nd+bn2t4Xw==}
+  /@cloudinary/html@1.11.2:
+    resolution: {integrity: sha512-IibBZliI7MOK3dxvz0WlsEyTIsqZhY3SiCBQM0CNwCKxn3N1TO8OgetfU26Now1lJbdoF5JQ8S7Cn6ZWNuU1KA==}
     dependencies:
       '@types/lodash.clonedeep': 4.5.7
       '@types/lodash.debounce': 4.0.7
@@ -1510,13 +1514,13 @@ packages:
       typescript: 4.8.4
     dev: false
 
-  /@cloudinary/react@1.11.0(react@18.2.0):
-    resolution: {integrity: sha512-I+d2N7QOVWt1ObkbF9BuPxi0NqHRrQDZOuBGqQgo/MoM5TxDHmGfIIRumh4rsGLQxCdCk1qT/f0qMq71QoOZ6w==}
+  /@cloudinary/react@1.11.2(react@18.2.0):
+    resolution: {integrity: sha512-ZnVthMW7TExLMPmyven4N7EVr2oX2yZqnHn6EHBlni9iM0AZd6qtR8R5/SscxNLNwgBieWuvmejUlUT4LqPpMg==}
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16.3.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@cloudinary/html': 1.11.0
+      '@cloudinary/html': 1.11.2
       react: 18.2.0
     dev: false
 
