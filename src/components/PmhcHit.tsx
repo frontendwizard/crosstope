@@ -5,55 +5,15 @@ import {
   Card,
   CardBody,
   Flex,
-  Heading,
   Image,
-  Link,
   Stack,
-  Text,
 } from '@chakra-ui/react'
 import type { inferProcedureOutput } from '@trpc/server'
 import NextLink from 'next/link'
 
 import type { AppRouter } from '~/server/routers/_app'
 
-function DataItem({
-  label,
-  value,
-  link,
-}: {
-  label: string
-  value: string
-  link?: string | null
-}) {
-  return (
-    <Flex
-      direction={{ base: 'column', md: 'row' }}
-      alignItems={{ base: 'start', md: 'center' }}
-      gap={{ base: 0, md: 2 }}
-    >
-      <Box w="36">
-        <Heading size="xs" textTransform="uppercase">
-          {label}
-        </Heading>
-      </Box>
-      {link ? (
-        <NextLink href={link.trim()} passHref legacyBehavior>
-          <Link
-            isExternal
-            display="inline-flex"
-            gap={1}
-            alignItems="center"
-            target="_blank"
-          >
-            {value} <ExternalLinkIcon />
-          </Link>
-        </NextLink>
-      ) : (
-        <Text>{value}</Text>
-      )}
-    </Flex>
-  )
-}
+import { DataItem } from './DataItem'
 
 export const PmhcHit = ({
   hit,
@@ -66,7 +26,7 @@ export const PmhcHit = ({
         alt=""
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
-        src={`images/${hit.complex_code}_V5.jpg`}
+        src={`images/${hit.mhc_allele}_${hit.sequence}_${hit.source_organism}.jpg`}
         fallback={
           <Box w={{ base: '100%', sm: '200px' }} objectFit="cover" bg="white" />
         }
@@ -106,7 +66,7 @@ export const PmhcHit = ({
               <Button
                 leftIcon={<DownloadIcon />}
                 as="a"
-                href={`/pdb/${hit.complex_code}.pdb`}
+                href={`/pdb/${hit.mhc_allele}_${hit.sequence}_${hit.source_organism}.pdb`}
                 download
               >
                 Download PDB file
