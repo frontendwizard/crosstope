@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "PMHC" ALTER COLUMN "reference" DROP NOT NULL;

@@ -32,79 +32,59 @@ const fields: Pick<
     helperText: 'e.g. YRLACNCVED',
   },
   {
-    fieldKey: 'epitope_id_by_iedb',
-    label: 'Epitope id by iedb',
-    rules: { required: 'Epitope id is required' },
-  },
-  {
-    fieldKey: 'link_epitope_id_by_iedb',
-    label: 'IEDB link',
-    rules: { required: 'Link to epitope id on iedb is required' },
-  },
-  {
-    fieldKey: 'epitope_position',
-    label: 'Epitope Position',
-    rules: { required: 'Epitope position is required' },
+    fieldKey: 'mhc_allele_id',
+    label: 'MHC Allele id (peptide length)',
+    rules: { required: 'MHC Allele is required' },
+    helperText: 'e.g. H2-Db (9)',
   },
   {
     fieldKey: 'structure_type_id',
     label: 'Structure Type',
     rules: { required: 'Structure type is required' },
+    helperText: 'e.g. Model (D1-EM-D2)',
   },
   {
     fieldKey: 'link_para_structure_type',
     label: 'Link to Structure Type',
-    rules: { required: 'Link to structure type is required' },
-  },
-  {
-    fieldKey: 'structure_source',
-    label: 'Source Structure',
-    rules: { required: 'Source structure is required' },
-  },
-  {
-    fieldKey: 'mhc_allele_id',
-    label: 'MHC Allele id',
-    rules: { required: 'MHC Allele is required' },
+    rules: {},
+    helperText:
+      'e.g. http://www.rcsb.org/pdb/explore/explore.do?structureId=1DUZ',
   },
   {
     fieldKey: 'source_organism',
     label: 'Source Organism',
     rules: { required: 'Source organism is required' },
-  },
-  {
-    fieldKey: 'immunological_background_id',
-    label: 'Immunological Background',
-    rules: { required: 'Immunological background is required' },
+    helperText: 'e.g. Murid herpesvirus 1',
   },
   {
     fieldKey: 'source_protein',
     label: 'Source Protein',
     rules: { required: 'Source Protein is required' },
+    helperText: 'e.g. e1 protein',
   },
   {
     fieldKey: 'link_para_source_protein',
     label: 'Link to Source Protein',
     rules: { required: 'Link to Source Protein is required' },
-  },
-  {
-    fieldKey: 'reference',
-    label: 'Reference',
-    rules: { required: 'Reference is required' },
+    helperText: 'e.g. http://www.ncbi.nlm.nih.gov/protein/AAA45907.1',
   },
   {
     fieldKey: 'link_para_reference',
     label: 'Reference Link',
     rules: { required: 'Reference Link is required' },
+    helperText: 'e.g. http://www.ncbi.nlm.nih.gov/pubmed/9160097',
   },
   {
     fieldKey: 'link_para_imagem',
     label: 'Image Link',
     rules: { required: 'Image Link is required' },
+    helperText: 'a link to an image of the structure publicly available',
   },
   {
     fieldKey: 'link_para_pdb_file',
     label: 'PDB file Link',
     rules: { required: 'PDB File Link is required' },
+    helperText: 'a link to the PDB file publicly available',
   },
 ]
 
@@ -133,7 +113,7 @@ export function PmhcForm() {
         <Heading>Register new PMHC</Heading>
         <form onSubmit={onSubmit}>
           <Stack spacing="6" pb="10">
-            <SimpleGrid columns={2} spacing="4">
+            <SimpleGrid columns={1} spacing="4">
               {fields.map((field) => (
                 <TextInput
                   key={field.fieldKey}
