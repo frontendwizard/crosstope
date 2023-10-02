@@ -157,6 +157,28 @@ export const pmhcRouter = router({
       })
       return { item }
     }),
+  unpublish: publicProcedure
+    .input(
+      z.object({
+        sequence: z.string(),
+        source_organism: z.string(),
+        mhc_allele_id: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const item = await prisma.pMHC.update({
+        select: defaultPmhcSelect,
+        where: {
+          sequence_source_organism_mhc_allele_id: {
+            sequence: input.sequence,
+            source_organism: input.source_organism,
+            mhc_allele_id: input.mhc_allele_id,
+          },
+        },
+        data: { published: false },
+      })
+      return { item }
+    }),
   delete: publicProcedure
     .input(
       z.object({
@@ -184,27 +206,30 @@ export const pmhcRouter = router({
         sequence: z.string(),
         source_organism: z.string(),
         mhc_allele_id: z.string(),
-        epitope_position: z.string(),
-        epitope_id_by_iedb: z.string(),
-        link_epitope_id_by_iedb: z.string().url(),
+        epitope_position: z.string().optional(),
+        epitope_id_by_iedb: z.string().optional(),
+        link_epitope_id_by_iedb: z.string().url().optional(),
         structure_type_id: z.string(),
-        link_para_structure_type: z.string().url(),
+        link_para_structure_type: z.string().url().optional(),
         source_protein: z.string(),
         link_para_source_protein: z.string().url(),
         structure_source: z.string(),
-        reference: z.string(),
+        reference: z.string().optional(),
         link_para_reference: z.string().url(),
-        immunological_background_id: z.string().url(),
+        immunological_background_id: z.string().url().optional(),
         link_para_imagem: z.string().url(),
         link_para_pdb_file: z.string().url(),
+        published: z.boolean(),
       }),
     )
     .mutation(async ({ input }) => {
-      await prisma.immunologicalBackground.upsert({
-        where: { id: input.immunological_background_id },
-        create: { id: input.immunological_background_id },
-        update: {},
-      })
+      if (input.immunological_background_id) {
+        await prisma.immunologicalBackground.upsert({
+          where: { id: input.immunological_background_id },
+          create: { id: input.immunological_background_id },
+          update: {},
+        })
+      }
       await prisma.mHCAllele.upsert({
         where: { id: input.mhc_allele_id },
         create: { id: input.mhc_allele_id },

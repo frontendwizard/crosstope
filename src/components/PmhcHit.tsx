@@ -10,8 +10,11 @@ import {
 } from '@chakra-ui/react'
 import type { inferProcedureOutput } from '@trpc/server'
 import NextLink from 'next/link'
+import type { DefaultSession } from 'next-auth'
+import { useSession } from 'next-auth/react'
 
 import type { AppRouter } from '~/server/routers/_app'
+import { trpc } from '~/utils/trpc'
 
 import { DataItem } from './DataItem'
 
@@ -20,6 +23,15 @@ export const PmhcHit = ({
 }: {
   hit: inferProcedureOutput<AppRouter['pmhc']['search']>['items'][number]
 }) => {
+  const { data: session } = useSession()
+  const utils = trpc.useContext()
+  const { mutate: unpublish, isLoading: isUpdating } =
+    trpc.pmhc.unpublish.useMutation({
+      onSuccess: async () => {
+        utils.pmhc.search.invalidate()
+      },
+    })
+  console.log(session)
   return (
     <Card variant="outline" direction="row" overflow="hidden">
       <Image
@@ -79,6 +91,27 @@ export const PmhcHit = ({
                   Go to reference <ExternalLinkIcon ml="1" />
                 </Button>
               </NextLink>
+
+              {session &&
+                (
+                  session.user as DefaultSession['user'] & {
+                    role: 'admin' | 'user'
+                  }
+                )?.role === 'admin' && (
+                  <Button
+                    isLoading={isUpdating}
+                    colorScheme="red"
+                    onClick={() =>
+                      unpublish({
+                        mhc_allele_id: hit.mhc_allele.id,
+                        sequence: hit.sequence,
+                        source_organism: hit.source_organism,
+                      })
+                    }
+                  >
+                    Unpublish
+                  </Button>
+                )}
             </Flex>
           </Flex>
         </CardBody>
