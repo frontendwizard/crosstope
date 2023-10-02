@@ -39,15 +39,14 @@ export const PmhcHit = ({
               value={hit.sequence}
               link={hit.link_epitope_id_by_iedb}
             />
-            <DataItem label="peptide lenght" value={hit.peptide_lenght} />
+            <DataItem
+              label="alele (peptide length)"
+              value={hit.peptide_lenght}
+            />
             <DataItem
               label="structure type"
               value={hit.structure_type.id}
               link={hit.link_para_structure_type}
-            />
-            <DataItem
-              label="immunological background"
-              value={hit.immunological_background.id}
             />
             {hit.source_protein && (
               <DataItem

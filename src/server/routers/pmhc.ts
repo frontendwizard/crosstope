@@ -102,29 +102,18 @@ export const pmhcRouter = router({
     .input(
       z.object({
         sequence: z.string(),
-        epitope_position: z.string(),
-        epitope_id_by_iedb: z.string(),
-        link_epitope_id_by_iedb: z.string().url(),
         structure_type_id: z.string(),
         link_para_structure_type: z.string().url(),
         source_protein: z.string(),
         link_para_source_protein: z.string().url(),
-        structure_source: z.string(),
-        reference: z.string(),
         link_para_reference: z.string().url(),
         mhc_allele_id: z.string(),
         source_organism: z.string(),
-        immunological_background_id: z.string(),
         link_para_imagem: z.string().url(),
         link_para_pdb_file: z.string().url(),
       }),
     )
     .mutation(async ({ input }) => {
-      await prisma.immunologicalBackground.upsert({
-        where: { id: input.immunological_background_id },
-        create: { id: input.immunological_background_id },
-        update: {},
-      })
       await prisma.mHCAllele.upsert({
         where: { id: input.mhc_allele_id },
         create: { id: input.mhc_allele_id },

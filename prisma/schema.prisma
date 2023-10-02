@@ -10,14 +10,14 @@ datasource defaultdb {
 model PMHC {
   complex_code                String
   sequence                    String
-  epitope_id_by_iedb          String
-  link_epitope_id_by_iedb     String
+  epitope_id_by_iedb          String?
+  link_epitope_id_by_iedb     String?
   structure_type_id           String
   mhc_allele_id               String
   source_organism             String
-  epitope_position            String
-  immunological_background_id String
-  reference                   String
+  epitope_position            String?
+  immunological_background_id String?
+  reference                   String?
   link_para_source_protein    String
   link_para_reference         String
   peptide_lenght              String
@@ -30,10 +30,10 @@ model PMHC {
   link_para_structure_type    String?
   link_para_imagem            String?
   link_para_pdb_file          String?
-  immunological_background    ImmunologicalBackground @relation(fields: [immunological_background_id], references: [id])
-  mhc_allele                  MHCAllele               @relation(fields: [mhc_allele_id], references: [id])
-  structure_type              StructureType           @relation(fields: [structure_type_id], references: [id])
-  published                   Boolean                 @default(true)
+  immunological_background    ImmunologicalBackground? @relation(fields: [immunological_background_id], references: [id])
+  mhc_allele                  MHCAllele                @relation(fields: [mhc_allele_id], references: [id])
+  structure_type              StructureType            @relation(fields: [structure_type_id], references: [id])
+  published                   Boolean                  @default(true)
 
   @@id([sequence, source_organism, mhc_allele_id])
 }

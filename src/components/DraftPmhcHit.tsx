@@ -100,10 +100,6 @@ export function DraftPmhcHit({
               value={hit.structure_type.id}
               link={hit.link_para_structure_type}
             />
-            <DataItem
-              label="immunological background"
-              value={hit.immunological_background.id}
-            />
             {hit.source_protein && (
               <DataItem
                 label="Source Protein"
